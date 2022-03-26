@@ -1,13 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+/// <reference path="typings/app.d.ts" />
+/// <reference path="typings/action.d.ts" />
+/// <reference path="typings/api.d.ts" />
+/// <reference path="typings/state.d.ts" />
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const App = () => {
-  return <h1>React + Typescript + Webpack setup!</h1>
-}
+import App from './components/App';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-)
+);
