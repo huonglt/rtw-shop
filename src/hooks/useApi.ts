@@ -5,10 +5,10 @@ import { useCallback, useState } from 'react';
  * Manage state of api call: is loading, is error, or loaded with data
  * Also allow user to retry to call a api service if any error occurred
  */
-export const useApi = (apiService: () => Promise<any>) => {
+export const useApi = <T>(apiService: () => Promise<any>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<T | null>(null);
 
   /**
    * load data. wrap in useCallback to avoid function re-created after each render
@@ -22,7 +22,7 @@ export const useApi = (apiService: () => Promise<any>) => {
       if (result instanceof Error) {
         setIsError(true);
       } else {
-        setData(result);
+        setData(result as T);
       }
     } catch (err) {
       setIsError(true);
