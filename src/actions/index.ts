@@ -28,3 +28,11 @@ export const salesSuccessAction = (payload: App.SaleResponsePayload) => ({
   payload
 });
 export const returnToShopAction = () => ({ type: RETURN_TO_SHOP });
+
+export type ProductsLoadedAction = ReturnType<typeof productsLoadedAction>;
+export type RemoveProductFromCartAction = ReturnType<
+  typeof removeProductFromCartAction
+>;
+export type SetQtyCartItemAction = ReturnType<typeof setQtyCartItemAction>;
+export type AddProductToCartAction = ReturnType<typeof addProductToCartAction>;
+export type SalesSuccessAction = ReturnType<typeof salesSuccessAction>;
