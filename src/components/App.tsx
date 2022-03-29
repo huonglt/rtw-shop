@@ -22,7 +22,7 @@ const App = () => {
     isError,
     data: products,
     loadData: loadProducts
-  } = useApi(getProducts);
+  } = useApi<App.Product[]>(getProducts);
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const [showSaleSummary, setShowSaleSummary] = useState(false);
