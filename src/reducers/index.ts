@@ -4,7 +4,12 @@ import {
   REMOVE_PRODUCT_FROM_CART,
   SET_QTY_CART_ITEM,
   SALES_SUCCESS,
-  RETURN_TO_SHOP
+  RETURN_TO_SHOP,
+  ProductsLoadedAction,
+  AddProductToCartAction,
+  RemoveProductFromCartAction,
+  SetQtyCartItemAction,
+  SalesSuccessAction
 } from '../actions';
 
 export const initialState: App.AppState = {
@@ -17,10 +22,10 @@ const reducer = (state: App.AppState, action: App.AnyAction): App.AppState => {
   const { products, cart } = state;
   switch (action.type) {
     case PRODUCTS_LOADED: {
-      return { ...state, products: action.products };
+      return { ...state, products: (action as ProductsLoadedAction).products };
     }
     case ADD_PRODUCT_TO_CART: {
-      const id = action.id;
+      const { id } = action as AddProductToCartAction;
       const product = products.find((product) => product.id === id);
       if (product) {
         const newCart = [...cart, { ...product, qty: 1 }];
@@ -30,11 +35,12 @@ const reducer = (state: App.AppState, action: App.AnyAction): App.AppState => {
       return state;
     }
     case REMOVE_PRODUCT_FROM_CART: {
-      const product = cart.find((product) => product.id === action.id);
+      const { id } = action as RemoveProductFromCartAction;
+      const product = cart.find((product) => product.id === id);
       if (product) {
         const { id, name, sku, picture, price } = product;
 
-        const newCart = cart.filter((product) => product.id !== action.id);
+        const newCart = cart.filter((product) => product.id !== id);
         const newProducts = [...products, { id, name, sku, picture, price }];
 
         return { ...state, products: newProducts, cart: newCart };
@@ -43,15 +49,17 @@ const reducer = (state: App.AppState, action: App.AnyAction): App.AppState => {
     }
 
     case SET_QTY_CART_ITEM: {
-      const index = cart.findIndex((product) => product.id === action.id);
+      const { id, qty } = action as SetQtyCartItemAction;
+      const index = cart.findIndex((product) => product.id === id);
 
       const newCart = [...cart];
-      newCart[index].qty = action.qty;
+      newCart[index].qty = qty;
       return { ...state, cart: newCart };
     }
     case SALES_SUCCESS: {
-      const { total_cost: totalCost, sold_items }: App.SaleResponsePayload =
-        action.payload;
+      const { total_cost: totalCost, sold_items } = (
+        action as SalesSuccessAction
+      ).payload;
 
       const soldItems = sold_items.map((item) => {
         const product = state.cart.find(
