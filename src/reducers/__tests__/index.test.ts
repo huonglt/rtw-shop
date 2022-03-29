@@ -4,11 +4,7 @@ import {
   removeProductFromCartAction
 } from '../../actions';
 import reducer, { initialState } from '../index';
-import {
-  mockProducts,
-  mockProduct1,
-  mockProduct2
-} from '../../test/mock/data';
+import { mockProducts, mockProduct1, mockProduct2 } from '../../test/mock/data';
 
 describe('reducer', () => {
   it('PRODUCTS_LOADED action will set products for the state', () => {
@@ -16,7 +12,7 @@ describe('reducer', () => {
 
     const newState = reducer(initialState, action);
 
-    const expectedState = {
+    const expectedState: App.AppState = {
       ...initialState,
       products: mockProducts
     };
@@ -24,7 +20,7 @@ describe('reducer', () => {
   });
 
   it('ADD_PRODUCT_TO_CART will add product to cart and remove product from product list', () => {
-    const prevState = {
+    const prevState: App.AppState = {
       ...initialState,
       products: mockProducts
     };
@@ -36,7 +32,7 @@ describe('reducer', () => {
      * product 1 is removed from products
      * product 1 is added to cart with initial qty of 1
      */
-    const expectedState = {
+    const expectedState: App.AppState = {
       ...prevState,
       products: [mockProduct2],
       cart: [{ ...mockProduct1, qty: 1 }]
@@ -46,7 +42,7 @@ describe('reducer', () => {
   });
 
   it('REMOVE_PRODUCT_FROM_CART will remove product from cart and add product back to product list', () => {
-    const prevState = {
+    const prevState: App.AppState = {
       products: [mockProduct2],
       cart: [
         {
@@ -60,7 +56,7 @@ describe('reducer', () => {
     const newState = reducer(prevState, action);
 
     // product 1 added back to product list without prop qty
-    const expectedState = {
+    const expectedState: App.AppState = {
       products: [mockProduct2, mockProduct1],
       cart: [],
       sales: null
