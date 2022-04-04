@@ -18,7 +18,7 @@ export const initialState: App.AppState = {
   sales: null
 };
 
-const reducer = (state: App.AppState, action: App.AnyAction): App.AppState => {
+const reducer = (state: App.AppState, action: App.Action): App.AppState => {
   const { products, cart } = state;
   switch (action.type) {
     case PRODUCTS_LOADED: {
@@ -57,14 +57,10 @@ const reducer = (state: App.AppState, action: App.AnyAction): App.AppState => {
       return { ...state, cart: newCart };
     }
     case SALES_SUCCESS: {
-      const { total_cost: totalCost, sold_items } = (
-        action as SalesSuccessAction
-      ).payload;
+      const { total_cost: totalCost, sold_items } = (action as SalesSuccessAction).payload;
 
       const soldItems = sold_items.map((item) => {
-        const product = state.cart.find(
-          (product) => product.id === item.product_id
-        );
+        const product = state.cart.find((product) => product.id === item.product_id);
         if (product) {
           return { ...product, qty: item.quantity };
         }
